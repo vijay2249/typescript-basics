@@ -11,10 +11,18 @@ const Item:React.FC<{item: Todo, onRemove: (text: string) =>void}> = ({item, onR
   )
 }
 
-const Todos: React.FC<{items: Todo[], onRemove: (text: string) => void}> = (props) =>{
+const EachItem:React.FC<{item: Todo, onRemoveItem: () =>void}> = ({item, onRemoveItem}) =>{
+  return (
+    <li className={classes.item} onClick={onRemoveItem}>{item.text}</li>
+  )
+}
+
+const Todos: React.FC<{items: Todo[], onRemove: (text: string) => void, onRemoveItem:(id: string)=>void}> = (props) =>{
   return (
     <ul className={classes.todos}>
-      {props.items.map(item=> <Item item={item} onRemove={props.onRemove}/>)}
+      {props.items.map(item=> <Item key={item.id} item={item} onRemove={props.onRemove}/>)}
+      <hr />
+      {props.items.map(item=> <EachItem item={item} key={item.id} onRemoveItem={props.onRemoveItem.bind(null, item.id)}/>)}
     </ul>
   )
 }
